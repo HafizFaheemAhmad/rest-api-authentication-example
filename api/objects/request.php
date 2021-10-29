@@ -2,7 +2,6 @@
 // 'user' object
 class Request
 {
- 
     // database connection and table name
     private $conn;
     private $table_name = "request";
@@ -12,37 +11,27 @@ class Request
     public $cc;
     public $bcc;
     public $body;
-
- 
-    // constructor
+   // constructor
     public function __construct($db){
-        $this->conn = $db;
+    $this->conn = $db;
 }
 
- public function add_email($from_email, $to_email, $cc, $bcc, $body)
-    {
-    	$query = "INSERT INTO request
-            SET
-                
-               	from_email = '$from_email',
-                to_email = '$to_email',
-                Bcc = '$bcc',
-                Cc = '$cc',
-                body = '$body'";
-
+public function add_email($from_email, $to_email, $cc, $bcc, $body)
+{
+    $query = "INSERT INTO request
+    SET
+    from_email = '$from_email',
+    to_email = '$to_email',
+    Bcc = '$bcc',
+    Cc = '$cc',
+    body = '$body'";
     // prepare the query
     $stmt = $this->conn->prepare($query);
-    var_dump($query);
-
-
-    if($stmt->execute())
+if($stmt->execute())
     {
-        return true;
+    return true;
     }
- 
     return false;
-}
-        }
+    }
+    }
 ?>
-
- 

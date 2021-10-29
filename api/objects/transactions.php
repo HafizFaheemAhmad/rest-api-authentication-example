@@ -2,7 +2,6 @@
 // 'user' object
 class Transactions
 {
- 
     // database connection and table name
     private $conn;
     private $table_name = "transactions";
@@ -11,30 +10,31 @@ class Transactions
     public $merchant_id;
     public $CD;
     public $payment_time;
- 
+    public function set_transactions()
+    {
+    $payment = array(
+    "id" => $this->id,
+    "balance" => $this->name,
+    "merchant_id" => $this->email,
+    "CD" => $this->designation,
+    "payment_time" => $this->salary
+    );
+    return $payment;
+    }
+    public function get_transactions()
+    {
+    $payment = array(
+    "id" => $this->id,
+    "balance" => $this->name,
+    "merchant_id" => $this->email,
+    "CD" => $this->designation,
+    "payment_time" => $this->salary
+    );
+    return $payment;
+    }
     // constructor
     public function __construct($db){
-        $this->conn = $db;
+    $this->conn = $db;
 }
-
- public function list_trasaction($balance, $merchant_id, $CD, $payment_time)
-    {
-    	$query = "INSERT INTO transactions
-            SET
-                
-               	Balance = '$balance',
-                merchant_id = '$merchant_id',";
-
-    // prepare the query
-    $stmt = $this->conn->prepare($query);
-    var_dump($query);
-
-
-    if($stmt->execute())
-    {
-        return true;
-    }
-    return false;
 }
-        }
 ?>

@@ -12,56 +12,53 @@ include_once 'libs/php-jwt-master/php-jwt-master/src/ExpiredException.php';
 include_once 'libs/php-jwt-master/php-jwt-master/src/SignatureInvalidException.php';
 include_once 'libs/php-jwt-master/php-jwt-master/src/JWT.php';
 use \Firebase\JWT\JWT;
- // retrieve gieve jwt here
-// get posted data
-$data = json_decode(file_get_contents("php://input"));
-// get jwt
-$jwt=isset($data->jwt) ? $data->jwt : "";
-// decode jwt here
-// if jwt is not empty
-    function jwt_validate($jwt,$key)
+    // retrieve gieve jwt here
+    // get posted data
+    $data = json_decode(file_get_contents("php://input"));
+    // get jwt
+    $jwt=isset($data->jwt) ? $data->jwt : "";
+    // decode jwt here
+    // if jwt is not empty
+function jwt_validate($jwt,$key)
 {
+if(!empty($jwt))
+    {
 
-    if($jwt==true)
-{
- 
     // if decode succeed, show user details
-    try {
-        // decode jwt
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
- 
-        // set response code
-        http_response_code(200);
- 
-        // show user details
-        echo json_encode(array(
-            "message" => "Access granted.",
-            "data" => $decoded->data
-        ));
-              return true;
- 
+try 
+    {
+    // decode jwt
+    $decoded = JWT::decode($jwt, $key, array('HS256'));
+
+    // set response code
+    http_response_code(200);
+
+    // show user details
+    $data=$decoded->data;
+    return array('status' =>true ,'data'=>$data );
+
     }
- 
-    // catch will be here
-    // if decode fails, it means jwt is invalid
-    catch (Exception $e)
-{ 
+     
+        // catch will be here
+        // if decode fails, it means jwt is invalid
+catch (Exception $e)
+    { 
     // set response code
     http_response_code(401);
     // tell the user access denied  & show error message
     echo json_encode(array(
-        "message" => "Access denied.",
-        "error" => $e->getMessage()));
-}
-            return false;
-}
+    "message" =>  $e->getMessage(),
+    "error" => $e->getMessage()));
+    }
+    return false;
+    }
 // show error message if jwt is empty
 else
-{
+    {
     // set response code
     http_response_code(401);
     // tell the user access denied
     echo json_encode(array("message" => "Access denied."));
-}
-}
+    }
+    }
 ?>
