@@ -16,7 +16,6 @@ class Merchant
     public function __construct($db){
     $this->conn = $db;
 }
-
     // create new user record
 function create()
 { 
@@ -54,7 +53,6 @@ if($stmt->execute())
 // check if given email exist in the database
 function emailExists()
 {
- 
     // query to check if email exists
     $query = "SELECT id, name, email, password,token,credit
     FROM " . $this->table_name . "
@@ -75,7 +73,6 @@ if($num>0)
 {
     // get record details / values
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
     // assign values to object properties
     $this->id = $row['id'];
     $this->name = $row['name'];
@@ -90,35 +87,22 @@ if($num>0)
     return false;
 } 
 
-
-    function add_amount($transaction_id,$merchant_id,$amount,$db)
+function add_amount($transaction_id,$merchant_id,$amount,$db)
     {
-       $query = "INSERT INTO transactions (transaction_id,merchant_id,amount)
-         VALUES('{$transaction_id}','{$merchant_id}','{$amount}')";
-    
-     $result=$db->query($query);     
-    
-    
+    $query = "INSERT INTO transactions (transaction_id,merchant_id,amount)
+    VALUES('{$transaction_id}','{$merchant_id}','{$amount}')";
+    $result=$db->query($query);     
     $querys="UPDATE merchant set credit=$amount where id='{$merchant_id}'";
     $stmt = $this->conn->prepare($querys);     
     $stmt->execute();
-
     // sanitize
-    
     $num = $stmt->rowCount();
-    
+
 if($num>0)
-{
-
+    {
     return true;
-}
-
-return false;
-
-}
-
-
-
-
+    }
+    return false;
+    }
 }   
 ?>
